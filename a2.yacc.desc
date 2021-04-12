@@ -1,0 +1,422 @@
+
+state 0:
+
+	program : . statement_list 
+
+
+	program	goto 28
+	statement_list	goto 1
+
+	.	reduce by rule 2
+
+
+state 1:
+
+	program : statement_list .  (reduce by rule 0)
+	statement_list : statement_list . statement 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	statement	goto 3
+	formula	goto 2
+
+	.	reduce by rule 0
+
+
+state 2:
+
+	statement : formula . TERM 
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+
+	AND	shift 14
+	OR	shift 13
+	XOR	shift 12
+	EQUALS	shift 11
+	IMPLIES	shift 10
+	TERM	shift 9
+
+
+	.	error
+
+
+state 3:
+
+	statement_list : statement_list statement .  (reduce by rule 1)
+
+
+
+	.	reduce by rule 1
+
+
+state 4:
+
+	formula : ID .  (reduce by rule 12)
+
+
+
+	.	reduce by rule 12
+
+
+state 5:
+
+	formula : LPAREN . formula RPAREN 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 15
+
+	.	error
+
+
+state 6:
+
+	formula : IF . formula THEN formula ELSE formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 16
+
+	.	error
+
+
+state 7:
+
+	formula : NOT . formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 17
+
+	.	error
+
+
+state 8:
+
+	formula : CONST .  (reduce by rule 13)
+
+
+
+	.	reduce by rule 13
+
+
+state 9:
+
+	statement : formula TERM .  (reduce by rule 3)
+
+
+
+	.	reduce by rule 3
+
+
+state 10:
+
+	formula : formula IMPLIES . formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 18
+
+	.	error
+
+
+state 11:
+
+	formula : formula EQUALS . formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 19
+
+	.	error
+
+
+state 12:
+
+	formula : formula XOR . formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 20
+
+	.	error
+
+
+state 13:
+
+	formula : formula OR . formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 21
+
+	.	error
+
+
+state 14:
+
+	formula : formula AND . formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 22
+
+	.	error
+
+
+state 15:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : LPAREN formula . RPAREN 
+
+	AND	shift 14
+	OR	shift 13
+	XOR	shift 12
+	EQUALS	shift 11
+	IMPLIES	shift 10
+	RPAREN	shift 23
+
+
+	.	error
+
+
+state 16:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : IF formula . THEN formula ELSE formula 
+
+	AND	shift 14
+	OR	shift 13
+	XOR	shift 12
+	EQUALS	shift 11
+	IMPLIES	shift 10
+	THEN	shift 24
+
+
+	.	error
+
+
+state 17:
+
+	formula : NOT formula .  (reduce by rule 4)
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+
+
+
+	.	reduce by rule 4
+
+
+state 18:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula IMPLIES formula .  (reduce by rule 9)
+
+	AND	shift 14
+	OR	shift 13
+	XOR	shift 12
+	EQUALS	shift 11
+	IMPLIES	shift 10
+
+
+	.	reduce by rule 9
+
+
+state 19:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula EQUALS formula .  (reduce by rule 8)
+	formula : formula . IMPLIES formula 
+
+
+
+	.	reduce by rule 8
+
+
+state 20:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula XOR formula .  (reduce by rule 7)
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+
+
+
+	.	reduce by rule 7
+
+
+state 21:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula OR formula .  (reduce by rule 6)
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+
+
+
+	.	reduce by rule 6
+
+
+state 22:
+
+	formula : formula . AND formula 
+	formula : formula AND formula .  (reduce by rule 5)
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+
+
+
+	.	reduce by rule 5
+
+
+state 23:
+
+	formula : LPAREN formula RPAREN .  (reduce by rule 11)
+
+
+
+	.	reduce by rule 11
+
+
+state 24:
+
+	formula : IF formula THEN . formula ELSE formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 25
+
+	.	error
+
+
+state 25:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : IF formula THEN formula . ELSE formula 
+
+	AND	shift 14
+	OR	shift 13
+	XOR	shift 12
+	EQUALS	shift 11
+	IMPLIES	shift 10
+	ELSE	shift 26
+
+
+	.	error
+
+
+state 26:
+
+	formula : IF formula THEN formula ELSE . formula 
+
+	CONST	shift 8
+	NOT	shift 7
+	IF	shift 6
+	LPAREN	shift 5
+	ID	shift 4
+
+	formula	goto 27
+
+	.	error
+
+
+state 27:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : IF formula THEN formula ELSE formula .  (reduce by rule 10)
+
+	AND	shift 14
+	OR	shift 13
+	XOR	shift 12
+	EQUALS	shift 11
+	IMPLIES	shift 10
+
+
+	.	reduce by rule 10
+
+
+state 28:
+
+
+	EOF	accept
+
+
+	.	error
+
+45 of 119 action table entries left after compaction
+14 goto table entries
